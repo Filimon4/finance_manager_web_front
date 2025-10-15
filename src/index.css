@@ -118,3 +118,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+}

@@ -1,0 +1,103 @@
+/* Roboto Slab Thin - 100 */
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("/fonts/RobotSlab/RobotoSlab-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto Slab ExtraLight - 200 */
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("/fonts/RobotSlab/RobotoSlab-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto Slab Light - 300 */
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("/fonts/RobotSlab/RobotoSlab-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto Slab Regular - 400 */
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("/fonts/RobotSlab/RobotoSlab-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto Slab Medium - 500 */
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("/fonts/RobotSlab/RobotoSlab-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto Slab SemiBold - 600 */
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("/fonts/RobotSlab/RobotoSlab-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto Slab Bold - 700 */
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("/fonts/RobotSlab/RobotoSlab-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto Slab ExtraBold - 800 */
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("/fonts/RobotSlab/RobotoSlab-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto Slab Black - 900 */
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("/fonts/RobotSlab/RobotoSlab-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Устанавливаем Roboto Slab Regular как шрифт по умолчанию */
+body {
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Дополнительные CSS переменные для удобства */
+:root {
+  --font-roboto-slab: "Roboto Slab", serif;
+
+  /* Font weights */
+  --font-weight-thin: 100;
+  --font-weight-extra-light: 200;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semi-bold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extra-bold: 800;
+  --font-weight-black: 900;
+}
