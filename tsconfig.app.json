@@ -29,5 +29,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "src/lib/react-router/ProtectedRoute/.ts"]
+  "include": ["src", "src/lib/reactRouter/ProtectedRoute/.ts"]
 }

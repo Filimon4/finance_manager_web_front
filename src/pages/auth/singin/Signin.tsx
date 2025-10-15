@@ -1,9 +1,9 @@
-import React from "react";
+import { SigninForm } from "@/components/forms/SigninForm/SigninForm";
 
 const Signin = () => {
   return (
     <div className="flex justify-center items-center w-full h-full flex-col gap-6">
-      <p>Вход</p>
+      <SigninForm />
     </div>
   );
 };

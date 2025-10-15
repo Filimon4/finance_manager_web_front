@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet } from "react-router";
 import logo from "/telegram_finasist_bot_logo 1.svg";
 

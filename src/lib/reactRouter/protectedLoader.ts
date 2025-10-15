@@ -1,7 +1,7 @@
 import { redirect } from "react-router";
 
 export async function protectedLoader() {
-  const token = localStorage.getItem("jwt");
+  const token = localStorage.getItem("accessToken");
 
   if (!token) {
     throw redirect("/auth/signin");
