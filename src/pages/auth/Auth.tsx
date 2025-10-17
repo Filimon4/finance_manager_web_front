@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import logo from "/telegram_finasist_bot_logo 1.svg";
+import logo from "/background/telegram_finasist_bot_logo.svg";
 
 const Auth = () => {
   return (

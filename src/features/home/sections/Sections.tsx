@@ -1,12 +1,21 @@
-import React from "react";
+import { useNavigate } from "react-router";
+import home from "/icons/home.png";
 
 const Sections = () => {
+  const navigate = useNavigate();
+
+  const onHomeClick = () => {
+    navigate("/");
+  };
+
   return (
     <div className="flex w-full gap-5 py-2 justify-evenly">
-      <p>Обзор</p>
-      <p>История</p>
-      <p>Резюме</p>
-      <p>Счета</p>
+      <img
+        src={home}
+        className="h-[50px] cursor-pointer"
+        alt="home button"
+        onClick={() => onHomeClick()}
+      />
     </div>
   );
 };

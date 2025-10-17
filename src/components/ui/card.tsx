@@ -81,7 +81,42 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+const DashboardCard = ({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div">) => {
+  return (
+    <Card
+      className={cn(
+        "rounded-2xl bg-white/40 ring-2 ring-black/30 inset-shadow-sm backdrop-blur-md flex justify-center items-center p-10",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </Card>
+  );
+};
+
+const InfoCard = ({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div">) => {
+  return (
+    <Card
+      className={cn("rounded-2xl bg-white/10 shadow-xl/20 border-2", className)}
+      {...props}
+    >
+      {children}
+    </Card>
+  );
+};
+
 export {
+  DashboardCard,
+  InfoCard,
   Card,
   CardHeader,
   CardFooter,

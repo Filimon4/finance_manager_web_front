@@ -5,6 +5,9 @@ import Signin from "@/pages/auth/singin/Signin";
 import Signup from "@/pages/auth/signup/Signup";
 import Home from "@/pages/home/Home";
 import { createBrowserRouter } from "react-router";
+import Categories from "@/pages/home/categories/Categories";
+import Accounts from "@/pages/home/accounts/Accounts";
+import Overview from "@/pages/home/overview/Overview";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +17,28 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        children: [
+          {
+            path: "/",
+            element: <Overview />,
+          },
+          {
+            path: "/categories",
+            element: <Categories />,
+          },
+          {
+            path: "/accounts",
+            element: <Accounts />,
+          },
+        ],
+      },
+      {
+        path: "/categories",
+        element: <Categories />,
+      },
+      {
+        path: "/accounts",
+        element: <Accounts />,
       },
     ],
   },
