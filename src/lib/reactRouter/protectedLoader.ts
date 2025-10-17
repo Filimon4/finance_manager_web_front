@@ -7,9 +7,11 @@ export async function protectedLoader() {
     throw redirect("/auth/signin");
   }
 
-  // Можно добавить проверку подписи токена или запрос к API:
-  // const response = await fetch("/api/verify", { headers: { Authorization: `Bearer ${token}` } });
-  // if (!response.ok) throw redirect("/login");
+  // const  = await apiAxios.post(`/v1/auth/verify`, {
+  //   withCredentials: true,
+  // });
+
+  // if (!verify.ok) throw redirect("/login");
 
   return null;
 }
