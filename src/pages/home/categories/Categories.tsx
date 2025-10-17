@@ -1,5 +1,5 @@
-import { InfoCard } from "@/components/ui/card";
 import { useCategories } from "@/shared/api/categories";
+import CategoryItem from "@/widgets/categories/categoryItem/CategoryItem";
 
 const Categories = () => {
   const { data } = useCategories({ deleted: false });
@@ -9,13 +9,11 @@ const Categories = () => {
       <p>Категории</p>
       <div className="w-full h-full flex flex-col gap-5">
         {data?.map((category) => (
-          <InfoCard
+          <CategoryItem
             key={category.id}
-            className="w-full flex flex-row justify-between items-center py-4 px-5 shadow-xl/10"
-          >
-            <span>{category.name}</span>
-            <span>{0}</span>
-          </InfoCard>
+            id={category.id}
+            name={category.name}
+          />
         ))}
         <div className="w-full py-[5px]" />
       </div>
