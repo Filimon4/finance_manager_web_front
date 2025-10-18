@@ -1,11 +1,8 @@
 import apiAxios from "@/lib/axios";
-import type { BalanceResponse } from "./balance.interface";
+import type { IBalanceResponse } from "./balance.interface";
 
-export const balance = async (): Promise<BalanceResponse> => {
+export const balance = async (): Promise<IBalanceResponse> => {
   const response = await apiAxios.get(`/v1/account/balance`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
     withCredentials: true,
   });
 

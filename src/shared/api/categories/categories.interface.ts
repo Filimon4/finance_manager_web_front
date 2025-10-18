@@ -1,9 +1,9 @@
-export interface CetegoriesRequest {
+export interface ICetegoriesRequest {
   name?: string;
   deleted?: boolean;
 }
 
-export interface CategoryResponse {
+export interface ICategoryResponse {
   id: number;
   name: string;
   base_type: "INCOME" | "EXPENSE";
@@ -12,7 +12,7 @@ export interface CategoryResponse {
   account_id: number;
 }
 
-export interface CategoryBalanceResponse {
+export interface ICategoryBalanceResponse {
   overview: {
     totalIncome: number;
     totalExpense: number;

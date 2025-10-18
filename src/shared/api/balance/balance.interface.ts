@@ -1,4 +1,4 @@
-export interface BalanceResponse {
+export interface IBalanceResponse {
   overview: {
     totalIncome: number;
     totalExpense: number;

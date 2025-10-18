@@ -6,7 +6,7 @@ const Dashboard = () => {
   return (
     <div className="flex justify-center items-center flex-col w-full h-full py-20">
       <div className="w-full flex justify-center items-center flex-1 overflow-hidden">
-        <DashboardCard className="w-full h-full overflow-y-scroll">
+        <DashboardCard className="w-full h-full overflow-y-auto">
           <Outlet />
         </DashboardCard>
       </div>

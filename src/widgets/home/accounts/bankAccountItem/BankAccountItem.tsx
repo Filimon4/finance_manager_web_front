@@ -1,10 +1,8 @@
 import { InfoCard } from "@/components/ui/card";
-import { useCategoryOverview } from "@/shared/api/categories/useCategoriesOverview";
+import { useAccountOverview } from "@/shared/api/account";
 
-const CategoryItem = ({ id, name }: { id: number; name: string }) => {
-  const { data } = useCategoryOverview(id);
-
-  console.log(data);
+const AccountItem = ({ id, name }: { id: number; name: string }) => {
+  const { data } = useAccountOverview(id);
 
   return (
     <InfoCard
@@ -17,4 +15,4 @@ const CategoryItem = ({ id, name }: { id: number; name: string }) => {
   );
 };
 
-export default CategoryItem;
+export default AccountItem;

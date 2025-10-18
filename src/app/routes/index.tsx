@@ -8,6 +8,7 @@ import { createBrowserRouter } from "react-router";
 import Categories from "@/pages/home/categories/Categories";
 import Accounts from "@/pages/home/accounts/Accounts";
 import Overview from "@/pages/home/overview/Overview";
+import Operations from "@/pages/home/operations/Operations";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
           {
             path: "/accounts",
             element: <Accounts />,
+          },
+          {
+            path: "/operations",
+            element: <Operations />,
           },
         ],
       },

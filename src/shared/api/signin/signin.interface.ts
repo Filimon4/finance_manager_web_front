@@ -1,8 +1,8 @@
-export interface SignInRequest {
+export interface ISignInRequest {
   email: string;
   password: string;
 }
 
-export interface SignInResponse {
+export interface ISignInResponse {
   accessToken: string;
 }

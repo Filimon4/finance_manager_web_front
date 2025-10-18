@@ -15,6 +15,10 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+function EmptyCard({ className, ...props }: React.ComponentProps<"div">) {
+  return <div data-slot="card" className={cn(className)} {...props} />;
+}
+
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -115,6 +119,7 @@ const InfoCard = ({
 };
 
 export {
+  EmptyCard,
   DashboardCard,
   InfoCard,
   Card,

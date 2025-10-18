@@ -13,7 +13,6 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col justify-center items-center gap-5 w-[200px]">
-      {/* Баланс */}
       <div>
         <div className="flex justify-center items-center gap-2 flex-col">
           <p className="text-xl">Баланс</p>
@@ -22,9 +21,7 @@ const Profile = () => {
           </p>
         </div>
       </div>
-      {/* Divider */}
       <div className="w-full h-[3px] bg-black rounded-4xl" />
-      {/* Доход / Расход */}
       <div className="w-full flex justify-between">
         <div className="flex justify-center items-center flex-col">
           <p>Расход</p>

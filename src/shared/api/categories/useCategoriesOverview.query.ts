@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { categoryOverview } from "./categories";
-import type { BalanceResponse } from "../balance";
+import type { IBalanceResponse } from "../balance";
 
 export const useCategoryOverview = (id: number) => {
-  return useQuery<BalanceResponse>({
+  return useQuery<IBalanceResponse>({
     queryKey: ["categoryOverview", id],
     queryFn: async () => await categoryOverview(id),
     enabled: !!id,

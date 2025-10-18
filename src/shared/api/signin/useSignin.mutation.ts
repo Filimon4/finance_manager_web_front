@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
-import { signIn, type SignInRequest } from ".";
+import { signIn, type ISignInRequest } from ".";
 
 export const useSignIn = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (credentials: SignInRequest) => signIn(credentials),
+    mutationFn: (credentials: ISignInRequest) => signIn(credentials),
     onSuccess: (data) => {
       if (data.accessToken) {
         localStorage.setItem("accessToken", data.accessToken);
