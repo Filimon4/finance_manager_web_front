@@ -20,3 +20,14 @@ export interface ICategoryBalanceResponse {
   };
   fromDate: string;
 }
+
+export interface ICategoryCreateRequest {
+  name: string;
+  baseType: "INCOME" | "EXPENSE";
+}
+
+export interface ICategoryUpdateRequest {
+  id: number;
+  name: string;
+  baseType: "INCOME" | "EXPENSE";
+}

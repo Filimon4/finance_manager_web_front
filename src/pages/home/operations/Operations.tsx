@@ -38,13 +38,6 @@ const Operations = () => {
         })}
         <div className="w-full py-[5px]" />
       </div>
-      {/* <Button
-        className="w-full flex justify-center items-center cursor-pointer"
-        variant={"borderedCustom1"}
-        onClick={() => onClikcAddOperation()}
-      >
-        <span>Добавить операцию</span>
-      </Button> */}
       <AddOperationDialog />
     </>
   );

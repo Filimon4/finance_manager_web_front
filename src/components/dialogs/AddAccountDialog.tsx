@@ -4,14 +4,13 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DialogPortal } from "@radix-ui/react-dialog";
+import { CreateAccountForm } from "../forms/AddAccountForm/AddAccountForm";
 
-const AddAccountDialog = () => {
+const CreateAccountDialog = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -32,34 +31,11 @@ const AddAccountDialog = () => {
               Добавить счёт
             </DialogTitle>
           </DialogHeader>
-
-          <div className="flex flex-col gap-3 mt-2">
-            <Input
-              placeholder="Сумма"
-              className="rounded-xl shadow-sm focus:ring-2 focus:ring-gray-300"
-            />
-            <Input
-              placeholder="Стартовый баланс"
-              className="rounded-xl shadow-sm focus:ring-2 focus:ring-gray-300"
-            />
-            <Input
-              placeholder="Примечание"
-              className="rounded-xl shadow-sm focus:ring-2 focus:ring-gray-300"
-            />
-          </div>
-
-          <DialogFooter className="mt-6">
-            <Button
-              onClick={() => setOpen(false)}
-              className="w-full rounded-full shadow-sm"
-            >
-              Добавить счёт
-            </Button>
-          </DialogFooter>
+          <CreateAccountForm onSuccess={() => setOpen(false)} />
         </DialogContent>
       </DialogPortal>
     </Dialog>
   );
 };
 
-export default AddAccountDialog;
+export default CreateAccountDialog;

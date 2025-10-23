@@ -1,16 +1,11 @@
 import { useNavigate } from "react-router";
 import home from "/icons/home.png";
-import bills from "/icons/bills.png";
 
 const Sections = () => {
   const navigate = useNavigate();
 
   const onHomeClick = () => {
     navigate("/");
-  };
-
-  const onHistoryClick = () => {
-    navigate("/operations");
   };
 
   return (
@@ -20,12 +15,6 @@ const Sections = () => {
         className="h-[50px] cursor-pointer"
         alt="home button"
         onClick={() => onHomeClick()}
-      />
-      <img
-        src={bills}
-        className="h-[50px] cursor-pointer"
-        alt="home button"
-        onClick={() => onHistoryClick()}
       />
     </div>
   );

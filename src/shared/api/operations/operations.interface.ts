@@ -22,3 +22,14 @@ export interface IOperationsResponse {
   created_at: string;
   account_id: number;
 }
+
+export interface ICreateOperationRequest {
+  name: string;
+  baseType: "INCOME" | "EXPENSE";
+}
+
+export interface IUpdateOperationRequest {
+  id: number;
+  name: string;
+  baseType: "INCOME" | "EXPENSE";
+}

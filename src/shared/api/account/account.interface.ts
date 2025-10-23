@@ -13,6 +13,13 @@ export interface IAccountResponse {
   currency_id: number;
 }
 
+export interface IAccountCreateResponse {
+  id: number;
+  currency_id: number;
+  main: boolean;
+  name: string;
+}
+
 export interface IAccountOverviewResponse {
   overview: {
     totalIncome: number;
@@ -20,4 +27,16 @@ export interface IAccountOverviewResponse {
     totalProfit: number;
   };
   fromDate: string;
+}
+
+export interface IAccountCreateRequest {
+  name: string;
+  baseAmount: number;
+  currencyId: number;
+}
+
+export interface IAccountUpdateRequest {
+  id: number;
+  name: string;
+  main: boolean;
 }

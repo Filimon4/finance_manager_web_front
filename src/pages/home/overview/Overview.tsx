@@ -13,7 +13,7 @@ const Overview = () => {
   };
 
   const onOperationsClick = () => {
-    navigate("/accounts");
+    navigate("/operations");
   };
 
   return (

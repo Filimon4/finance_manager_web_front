@@ -23,10 +23,14 @@ function ComboboxSearch({
   data,
   searchPlaceholder,
   onClick,
+  buttonClassName,
+  popperClassName,
 }: {
   data: Array<{ label: string; value: string; active: boolean }>;
   searchPlaceholder?: string;
   onClick: (index: number) => void;
+  buttonClassName?: string;
+  popperClassName?: string;
 }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
@@ -38,19 +42,24 @@ function ComboboxSearch({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="rounded-xl shadow-sm focus:ring-2 focus:ring-gray-300 justify-between"
+          className={cn(
+            "rounded-xl shadow-sm focus:ring-2 focus:ring-gray-300 justify-between",
+            buttonClassName
+          )}
         >
-          {value
-            ? data.find((d) => d.value === value)?.label
-            : searchPlaceholder || "Поиск..."}
+          {value ? (
+            data.find((d) => d.value === value)?.label
+          ) : (
+            <p className="text-[#737373] font-normal">{searchPlaceholder}</p>
+          )}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className={cn("w-[200px] p-0", popperClassName)}>
         <Command>
           <CommandInput placeholder="Поиск..." className="h-9" />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>Пусто</CommandEmpty>
             <CommandGroup>
               {data.map((d, index) => (
                 <CommandItem
