@@ -22,18 +22,18 @@ const Profile = () => {
         </div>
       </div>
       <div className="w-full h-[3px] bg-black rounded-4xl" />
-      <div className="w-full flex justify-between">
-        <div className="flex justify-center items-center flex-col">
+      <div className="w-full gap-5 flex justify-between flex-col">
+        <div className="flex justify-between items-center gap-3">
           <p>Расход</p>
-          <div className="flex justify-between items-center gap-5">
+          <div className="flex justify-between items-center gap-2">
             <img src={downBorderd} alt="Расход" className="w-[30px]" />
             <p>{totalExpense.toLocaleString()}</p>
           </div>
         </div>
 
-        <div className="flex justify-center items-center flex-col">
+        <div className="flex justify-between items-center gap-3">
           <p>Доход</p>
-          <div className="flex justify-between items-center gap-5">
+          <div className="flex justify-between items-center gap-2">
             <img src={upBorderd} alt="Доход" className="w-[30px]" />
             <p>{totalIncome.toLocaleString()}</p>
           </div>

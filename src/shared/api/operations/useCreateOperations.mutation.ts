@@ -7,6 +7,7 @@ export const useCreateOperation = () => {
     mutationFn: (data: ICreateOperationRequest) => createOperation(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["operations"] });
+      queryClient.invalidateQueries({ queryKey: ["balance"] });
     },
   });
 };

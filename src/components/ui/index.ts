@@ -8,3 +8,6 @@ export * from "./label";
 export * from "./popover";
 export * from "./toggle";
 export * from "./toggle-group";
+export * from "./checkbox";
+export * from "./sheet";
+export * from "./select";

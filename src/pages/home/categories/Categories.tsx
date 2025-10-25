@@ -1,6 +1,6 @@
 import AddCategoryDialog from "@/components/dialogs/AddCategoryDialog";
 import { useCategories } from "@/shared/api/categories";
-import CategoryItem from "@/widgets/home/categories/categoryItem/CategoryItem";
+import CategoryItem from "@/widgets/home/categories/CategoryItem/CategoryItem";
 
 const Categories = () => {
   const { data } = useCategories({ deleted: false });

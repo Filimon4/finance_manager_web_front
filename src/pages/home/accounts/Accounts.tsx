@@ -1,6 +1,6 @@
 import CreateAccountDialog from "@/components/dialogs/AddAccountDialog";
 import { useAccounts } from "@/shared/api/account/useAccounts.query";
-import AccountItem from "@/widgets/home/accounts/bankAccountItem/BankAccountItem";
+import AccountItem from "@/widgets/home/accounts/Accountitem/Accountitem";
 
 const Accounts = () => {
   const { data } = useAccounts({ deleted: false });
@@ -8,7 +8,7 @@ const Accounts = () => {
   return (
     <>
       <p>Счета</p>
-      <div className="w-full h-full flex flex-col gap-5">
+      <div className="w-full h-full flex flex-col gap-5 overflow-auto">
         {data?.map((account) => (
           <AccountItem key={account.id} id={account.id} name={account.name} />
         ))}

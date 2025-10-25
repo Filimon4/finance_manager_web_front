@@ -6,7 +6,7 @@ export const useCreateCategory = () => {
   return useMutation({
     mutationFn: (data: ICategoryCreateRequest) => createCategory(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["category"] });
     },
   });
 };

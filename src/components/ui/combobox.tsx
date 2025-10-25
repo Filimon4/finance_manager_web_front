@@ -18,6 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useMemo } from "react";
 
 function ComboboxSearch({
   data,
@@ -33,7 +34,10 @@ function ComboboxSearch({
   popperClassName?: string;
 }) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+
+  const activeValue = useMemo(() => {
+    return data.find((d) => d.active === true);
+  }, [data]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -47,8 +51,8 @@ function ComboboxSearch({
             buttonClassName
           )}
         >
-          {value ? (
-            data.find((d) => d.value === value)?.label
+          {activeValue ? (
+            activeValue?.label
           ) : (
             <p className="text-[#737373] font-normal">{searchPlaceholder}</p>
           )}
@@ -65,8 +69,7 @@ function ComboboxSearch({
                 <CommandItem
                   key={d.value}
                   value={d.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                  onSelect={() => {
                     setOpen(false);
                     onClick(index);
                   }}
