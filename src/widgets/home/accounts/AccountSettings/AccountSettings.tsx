@@ -63,7 +63,6 @@ const AccountSettings = ({ id }: IAccountSettings) => {
   }, [accountLoadedSuccess, accountData]);
 
   useEffect(() => {
-    console.log(currenciesLoadedSuccess);
     if (!currenciesLoadedSuccess) return;
     if (!accountLoadedSuccess) return;
 

@@ -5,7 +5,7 @@ import type {
   ICategoryResponse,
   ICategoryUpdateRequest,
   ICetegoriesRequest,
-} from "./categories.interface";
+} from "./category.interface";
 
 export const categories = async (
   params: ICetegoriesRequest
@@ -13,6 +13,14 @@ export const categories = async (
   const response = await apiAxios.get(`/v1/categories`, {
     withCredentials: true,
     params,
+  });
+
+  return response.data;
+};
+
+export const category = async (id: number): Promise<ICategoryResponse> => {
+  const response = await apiAxios.get(`/v1/categories/${id}`, {
+    withCredentials: true,
   });
 
   return response.data;

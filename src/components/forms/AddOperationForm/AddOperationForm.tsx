@@ -1,5 +1,5 @@
 import { useAccounts } from "@/shared/api/account";
-import { useCategories } from "@/shared/api/categories";
+import { useCategories } from "@/shared/api/category";
 import { useCreateOperation } from "@/shared/api/operations/useCreateOperations.mutation";
 import {
   createOperationSchema,

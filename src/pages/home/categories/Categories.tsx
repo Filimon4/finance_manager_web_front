@@ -1,5 +1,5 @@
 import AddCategoryDialog from "@/components/dialogs/AddCategoryDialog";
-import { useCategories } from "@/shared/api/categories";
+import { useCategories } from "@/shared/api/category";
 import CategoryItem from "@/widgets/home/categories/CategoryItem/CategoryItem";
 
 const Categories = () => {

@@ -1,9 +1,9 @@
 import { useForm } from "@tanstack/react-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useCreateCategory } from "@/shared/api/categories/useCreateCategory.mutation";
+import { useCreateCategory } from "@/shared/api/category/useCreateCategory.mutation";
 import { createCategorySchema } from "./schema";
-import type { ICategoryCreateRequest } from "@/shared/api/categories";
+import type { ICategoryCreateRequest } from "@/shared/api/category";
 import upBorderd from "/icons/up_bordered.svg";
 import downBorderd from "/icons/down_bordered.svg";
 import {

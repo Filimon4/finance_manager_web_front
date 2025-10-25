@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { categoryOverview } from "./categories";
+import { categoryOverview } from "./category";
 import type { IBalanceResponse } from "../balance";
 
 export const useCategoryOverview = (id: number) => {
