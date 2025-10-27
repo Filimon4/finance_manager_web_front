@@ -2,11 +2,9 @@ import {
   Button,
   Input,
   Label,
-  Select,
-  SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  Select,
   Sheet,
   SheetClose,
   SheetContent,
@@ -15,37 +13,38 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SelectContent,
+  SelectValue,
 } from "@/components/ui";
 import settings from "/icons/settings.svg";
-import { useCategory, useUpdateCategory } from "@/shared/api/category";
+import { useOperation } from "@/shared/api/operations";
 import { useEffect, useState } from "react";
 
-interface ICategorySettings {
+interface IOperationSettings {
   id: number;
 }
 
-const CategorySettings = ({ id }: ICategorySettings) => {
-  const {
-    data: categoryData,
-    isLoading: categoryLoading,
-    isSuccess: categoryLoadedSuccess,
-  } = useCategory(id);
-
-  const { mutateAsync, isPending } = useUpdateCategory();
+const OperationSettings = ({ id }: IOperationSettings) => {
+  const { data, isLoading, isSuccess } = useOperation(id);
 
   const [formData, setFormData] = useState({
     name: "",
-    baseType: "EXPENSE",
+    amount: NaN,
+    type: "",
+    description: "",
   });
 
   useEffect(() => {
-    if (categoryData) {
+    if (!isSuccess) return;
+    if (data) {
       setFormData({
-        name: categoryData.name || "",
-        baseType: categoryData.base_type || "EXPENSE",
+        name: data.name || "",
+        amount: Number(data.amount) || 0,
+        type: data.type || "EXPENSE",
+        description: data.description || "",
       });
     }
-  }, [categoryData]);
+  }, [data, isSuccess]);
 
   const handleInputChange = (
     field: string,
@@ -55,14 +54,6 @@ const CategorySettings = ({ id }: ICategorySettings) => {
       ...prev,
       [field]: value,
     }));
-  };
-
-  const onSubmit = async () => {
-    await mutateAsync({
-      id: id,
-      baseType: formData.baseType as "EXPENSE" | "INCOME",
-      name: formData.name,
-    });
   };
 
   return (
@@ -76,31 +67,30 @@ const CategorySettings = ({ id }: ICategorySettings) => {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Категория</SheetTitle>
-          <SheetDescription>Изменить категорию</SheetDescription>
+          <SheetTitle>Операция</SheetTitle>
+          <SheetDescription>Изменить операцию</SheetDescription>
         </SheetHeader>
         <div className="p-4 space-y-4">
-          {categoryLoading && <div className="text-center">Загрузка...</div>}
+          {isLoading && <div className="text-center">Загрузка...</div>}
 
-          {categoryLoadedSuccess && categoryData && (
+          {isSuccess && data && (
             <>
               <div className="flex flex-col gap-2">
-                <Label htmlFor="name">Название</Label>
-                <Input
-                  id="name"
-                  defaultValue={categoryData.name}
-                  onChange={(e) => {
-                    handleInputChange("name", e.target.value);
-                  }}
-                />
+                <Label>Название</Label>
+                <Input defaultValue={formData.name} />
               </div>
 
               <div className="flex flex-col gap-2">
-                <Label htmlFor="baseType">Тип</Label>
+                <Label>Сумма</Label>
+                <Input defaultValue={formData.amount} />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label>Тип</Label>
                 <Select
-                  value={formData.baseType}
+                  value={formData.type}
                   onValueChange={(value: "EXPENSE" | "INCOME") =>
-                    handleInputChange("baseType", value)
+                    handleInputChange("type", value)
                   }
                 >
                   <SelectTrigger className="w-full">
@@ -114,22 +104,26 @@ const CategorySettings = ({ id }: ICategorySettings) => {
               </div>
 
               <div className="flex flex-col gap-2">
+                <Label>Описание</Label>
+                <Input
+                  id="description"
+                  type="text"
+                  defaultValue={formData.description}
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
                 <Label>Создана</Label>
                 <div className="col-span-3 text-sm text-gray-600">
-                  {new Date(categoryData.created_at).toLocaleString("ru-RU")}
+                  {new Date(data.created_at).toLocaleString("ru-RU")}
                 </div>
               </div>
             </>
           )}
         </div>
         <SheetFooter>
-          <Button
-            className="w-full cursor-pointer"
-            type="submit"
-            onClick={onSubmit}
-            disabled={isPending}
-          >
-            {isPending ? "Сохарнение..." : "Сохранить изминения"}
+          <Button className="w-full" type="submit">
+            Сохранить изминения
           </Button>
           <SheetClose className="cursor-pointer">Закрыть</SheetClose>
         </SheetFooter>
@@ -138,4 +132,4 @@ const CategorySettings = ({ id }: ICategorySettings) => {
   );
 };
 
-export default CategorySettings;
+export default OperationSettings;

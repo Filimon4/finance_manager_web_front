@@ -32,7 +32,6 @@ export function AddOperationForm({ onSuccess }: { onSuccess: () => void }) {
     deleted: false,
   });
 
-  // Assume useCreateOperation is a mutation hook for creating an operation
   const createOperation = useCreateOperation();
 
   const form = useForm({
@@ -55,13 +54,12 @@ export function AddOperationForm({ onSuccess }: { onSuccess: () => void }) {
       type: "",
       name: "",
       amount: NaN,
-      bankAccountId: NaN, // Keep as is if required
-      categoryId: NaN, // Change from NaN to undefined
+      bankAccountId: NaN,
+      categoryId: NaN,
       description: "",
-      toBankAccountId: NaN, // Keep as is if required
+      toBankAccountId: NaN,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
       await createOperation.mutateAsync(value as CreateOperationFormData);
       onSuccess();
     },

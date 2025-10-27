@@ -35,6 +35,10 @@ const router = createBrowserRouter([
             path: "/operations",
             element: <Operations />,
           },
+          {
+            path: "/dynamic",
+            element: <Operations />,
+          },
         ],
       },
       {

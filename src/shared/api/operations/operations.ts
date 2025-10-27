@@ -37,7 +37,7 @@ export const updateOperation = async (
   return response.data;
 };
 
-export const opertaion = async (id: number): Promise<{ id: number }> => {
+export const opertaion = async (id: number): Promise<IOperationsResponse> => {
   const response = await apiAxios.get(`/v1/operations/${id}`, {
     withCredentials: true,
   });

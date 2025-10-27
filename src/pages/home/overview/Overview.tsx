@@ -16,6 +16,10 @@ const Overview = () => {
     navigate("/operations");
   };
 
+  const onDynamicClick = () => {
+    navigate("/dynamic");
+  };
+
   return (
     <>
       <p>Обзор</p>
@@ -42,6 +46,14 @@ const Overview = () => {
           variant={"borderedCustom1"}
         >
           <span>Операции</span>
+          <span>Все {">"}</span>
+        </Button>
+        <Button
+          className="w-full flex justify-between p-7 cursor-pointer"
+          onClick={() => onDynamicClick()}
+          variant={"borderedCustom1"}
+        >
+          <span>Динамика</span>
           <span>Все {">"}</span>
         </Button>
       </div>

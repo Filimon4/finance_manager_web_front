@@ -114,70 +114,68 @@ const AccountSettings = ({ id }: IAccountSettings) => {
         !currenciesLoadedSuccess ? (
           <>Подгрузка данных...</>
         ) : (
-          <div className="px-4">
-            <div className="space-y-4 py-4">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="name">Название счёта</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  value={accountData?.name}
-                  onChange={handleInputChange}
-                  placeholder="Введите название счёта"
-                  required
-                />
-              </div>
+          <div className="space-y-4 p-4">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="name">Название счёта</Label>
+              <Input
+                id="name"
+                name="name"
+                value={accountData?.name}
+                onChange={handleInputChange}
+                placeholder="Введите название счёта"
+                required
+              />
+            </div>
 
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="main"
-                  name="main"
-                  checked={formData.main}
-                  onCheckedChange={(checked) => {
-                    console.log(checked);
-                    setFormData((prev) => ({
-                      ...prev,
-                      main: Boolean(checked),
-                    }));
-                  }}
-                />
-                <Label htmlFor="main">Основной счёт</Label>
-              </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="main"
+                name="main"
+                checked={formData.main}
+                onCheckedChange={(checked) => {
+                  console.log(checked);
+                  setFormData((prev) => ({
+                    ...prev,
+                    main: Boolean(checked),
+                  }));
+                }}
+              />
+              <Label htmlFor="main">Основной счёт</Label>
+            </div>
 
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="currency_id">Валюта</Label>
-                {currencies && (
-                  <>
-                    <ComboboxSearch
-                      searchPlaceholder="Валюта"
-                      onClick={(i) => {
-                        setCurrCurrency(currencies[i]);
-                        handleSelectChange(i);
-                      }}
-                      data={currencies.map((curr) => ({
-                        label: curr.name,
-                        value: curr.symbol,
-                        active: currCurrency.id == curr.id,
-                      }))}
-                      buttonClassName="w-full"
-                    />
-                  </>
-                )}
-              </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="currency_id">Валюта</Label>
+              {currencies && (
+                <>
+                  <ComboboxSearch
+                    searchPlaceholder="Валюта"
+                    onClick={(i) => {
+                      setCurrCurrency(currencies[i]);
+                      handleSelectChange(i);
+                    }}
+                    data={currencies.map((curr) => ({
+                      label: curr.name,
+                      value: curr.symbol,
+                      active: currCurrency.id == curr.id,
+                    }))}
+                    buttonClassName="w-full"
+                  />
+                </>
+              )}
+            </div>
 
-              <div className="flex flex-col gap-2">
-                <Label>ID счёта</Label>
-                <Input value={accountData?.account_id} disabled />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label>Дата создания</Label>
-                <Input
-                  value={new Date(
-                    String(accountData?.created_at)
-                  ).toLocaleString()}
-                  disabled
-                />
-              </div>
+            <div className="flex flex-col gap-2">
+              <Label>ID счёта</Label>
+              <Input value={accountData?.account_id} disabled />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>Дата создания</Label>
+              <Input
+                value={new Date(
+                  String(accountData?.created_at)
+                ).toLocaleString()}
+                disabled
+              />
             </div>
           </div>
         )}
