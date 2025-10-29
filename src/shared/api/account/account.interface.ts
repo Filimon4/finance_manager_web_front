@@ -38,5 +38,6 @@ export interface IAccountCreateRequest {
 export interface IAccountUpdateRequest {
   id: number;
   name: string;
-  main: boolean;
+  currency_id: number;
+  main?: boolean;
 }

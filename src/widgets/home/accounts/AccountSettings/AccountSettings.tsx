@@ -9,23 +9,17 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import settings from "/icons/settings.svg";
-import {
-  Button,
-  Checkbox,
-  ComboboxSearch,
-  Input,
-  Label,
-} from "@/components/ui";
-import { useAccount } from "@/shared/api/account";
+import { Button, ComboboxSearch, Input, Label } from "@/components/ui";
+import { useAccount, useUpdateAccount } from "@/shared/api/account";
 import { useEffect, useState } from "react";
 import { useCurrencies } from "@/shared/api/currencies/useCurrencies.query";
-import type { ICurrenciesResponse } from "@/shared/api/currencies";
 
 export interface IAccountSettings {
   id: number;
 }
 
 const AccountSettings = ({ id }: IAccountSettings) => {
+  const [sheetOpen, setSheetOpen] = useState(false);
   const {
     data: accountData,
     isLoading: accountLoading,
@@ -38,13 +32,9 @@ const AccountSettings = ({ id }: IAccountSettings) => {
     isSuccess: currenciesLoadedSuccess,
   } = useCurrencies();
 
-  const [currCurrency, setCurrCurrency] = useState<ICurrenciesResponse>({
-    id: NaN,
-    code: "",
-    name: "",
-    symbol: "",
-    symbol_native: "",
-  });
+  const { mutateAsync, isPending } = useUpdateAccount();
+
+  const [currCurrency, setCurrCurrency] = useState<number>(NaN);
 
   const [formData, setFormData] = useState({
     name: accountData?.name || "",
@@ -72,7 +62,7 @@ const AccountSettings = ({ id }: IAccountSettings) => {
 
     if (!currency) return;
 
-    setCurrCurrency(currency);
+    setCurrCurrency(currency.id);
   }, [currenciesLoadedSuccess, accountLoadedSuccess, accountData, currencies]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,12 +80,29 @@ const AccountSettings = ({ id }: IAccountSettings) => {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("Saving changes:", formData);
+  const handleSubmit = async () => {
+    await mutateAsync({
+      id: id,
+      name: formData.name,
+      currency_id: currCurrency,
+    });
+    setSheetOpen(false);
+  };
+
+  const handleMainSubmit = async () => {
+    if (!accountLoadedSuccess) return;
+
+    await mutateAsync({
+      id: id,
+      name: accountData.name,
+      currency_id: accountData.currency_id,
+      main: true,
+    });
+    setSheetOpen(false);
   };
 
   return (
-    <Sheet>
+    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger>
         <img
           src={settings}
@@ -120,27 +127,11 @@ const AccountSettings = ({ id }: IAccountSettings) => {
               <Input
                 id="name"
                 name="name"
-                value={accountData?.name}
+                value={formData.name}
                 onChange={handleInputChange}
                 placeholder="Введите название счёта"
                 required
               />
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="main"
-                name="main"
-                checked={formData.main}
-                onCheckedChange={(checked) => {
-                  console.log(checked);
-                  setFormData((prev) => ({
-                    ...prev,
-                    main: Boolean(checked),
-                  }));
-                }}
-              />
-              <Label htmlFor="main">Основной счёт</Label>
             </div>
 
             <div className="flex flex-col gap-2">
@@ -150,13 +141,13 @@ const AccountSettings = ({ id }: IAccountSettings) => {
                   <ComboboxSearch
                     searchPlaceholder="Валюта"
                     onClick={(i) => {
-                      setCurrCurrency(currencies[i]);
+                      setCurrCurrency(currencies[i].id);
                       handleSelectChange(i);
                     }}
                     data={currencies.map((curr) => ({
                       label: curr.name,
                       value: curr.symbol,
-                      active: currCurrency.id == curr.id,
+                      active: currCurrency == curr.id,
                     }))}
                     buttonClassName="w-full"
                   />
@@ -164,10 +155,6 @@ const AccountSettings = ({ id }: IAccountSettings) => {
               )}
             </div>
 
-            <div className="flex flex-col gap-2">
-              <Label>ID счёта</Label>
-              <Input value={accountData?.account_id} disabled />
-            </div>
             <div className="flex flex-col gap-2">
               <Label>Дата создания</Label>
               <Input
@@ -186,7 +173,14 @@ const AccountSettings = ({ id }: IAccountSettings) => {
             onClick={handleSubmit}
             disabled={accountLoading}
           >
-            Сохранить изминения
+            {isPending ? "Сохарнение..." : "Сохранить изминения"}
+          </Button>
+          <Button
+            className="w-full"
+            onClick={handleMainSubmit}
+            disabled={accountLoading}
+          >
+            {isPending ? "Установка..." : "Поставить гланым счётом"}
           </Button>
           <SheetClose className="cursor-pointer">Закрыть</SheetClose>
         </SheetFooter>

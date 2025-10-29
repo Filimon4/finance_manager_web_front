@@ -25,6 +25,8 @@ interface ICategorySettings {
 }
 
 const CategorySettings = ({ id }: ICategorySettings) => {
+  const [sheetOpen, setSheetOpen] = useState(false);
+
   const {
     data: categoryData,
     isLoading: categoryLoading,
@@ -63,10 +65,11 @@ const CategorySettings = ({ id }: ICategorySettings) => {
       baseType: formData.baseType as "EXPENSE" | "INCOME",
       name: formData.name,
     });
+    setSheetOpen(false);
   };
 
   return (
-    <Sheet>
+    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger>
         <img
           src={settings}
@@ -79,7 +82,7 @@ const CategorySettings = ({ id }: ICategorySettings) => {
           <SheetTitle>Категория</SheetTitle>
           <SheetDescription>Изменить категорию</SheetDescription>
         </SheetHeader>
-        <div className="p-4 space-y-4">
+        <div className="space-y-4 p-4">
           {categoryLoading && <div className="text-center">Загрузка...</div>}
 
           {categoryLoadedSuccess && categoryData && (

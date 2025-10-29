@@ -15,7 +15,7 @@ export interface IOperationsResponse {
   description: string;
   name: string;
   transfer_pair_id: number;
-  type: string;
+  type: "INCOME" | "EXPENSE" | "TRANSFER_IN" | "TRANSFER_OUT";
 }
 
 export interface ICreateOperationRequest {
@@ -30,4 +30,8 @@ export interface ICreateOperationRequest {
 
 export interface IUpdateOperationRequest {
   id: number;
+  name: string;
+  amount: number;
+  type: "INCOME" | "EXPENSE";
+  description: string;
 }

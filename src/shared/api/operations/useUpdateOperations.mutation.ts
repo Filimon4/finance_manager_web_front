@@ -7,6 +7,7 @@ export const useUpdateOperation = () => {
     mutationFn: (data: IUpdateOperationRequest) => updateOperation(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["operations"] });
+      queryClient.invalidateQueries({ queryKey: ["balance"] });
     },
   });
 };

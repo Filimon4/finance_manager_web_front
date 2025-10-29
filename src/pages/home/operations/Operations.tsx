@@ -44,6 +44,7 @@ const Operations = () => {
                     id={operation.id}
                     name={operation.name}
                     amount={Number(operation.amount)}
+                    type={operation.type}
                   />
                 </div>
               );

@@ -6,7 +6,7 @@ export const useUpdateCategory = () => {
   return useMutation({
     mutationFn: (data: ICategoryUpdateRequest) => updateCategory(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["category"] });
     },
   });
 };

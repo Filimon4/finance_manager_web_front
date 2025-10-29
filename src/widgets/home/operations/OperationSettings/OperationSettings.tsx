@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui";
 import settings from "/icons/settings.svg";
-import { useOperation } from "@/shared/api/operations";
+import { useOperation, useUpdateOperation } from "@/shared/api/operations";
 import { useEffect, useState } from "react";
 
 interface IOperationSettings {
@@ -25,7 +25,11 @@ interface IOperationSettings {
 }
 
 const OperationSettings = ({ id }: IOperationSettings) => {
+  const [sheetOpen, setSheetOpen] = useState(false);
+
   const { data, isLoading, isSuccess } = useOperation(id);
+
+  const { mutateAsync, isPending } = useUpdateOperation();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -56,8 +60,19 @@ const OperationSettings = ({ id }: IOperationSettings) => {
     }));
   };
 
+  const onSubmit = async () => {
+    await mutateAsync({
+      id: id,
+      amount: formData.amount,
+      description: formData.description,
+      name: formData.name,
+      type: formData.type as "INCOME" | "EXPENSE",
+    });
+    setSheetOpen(false);
+  };
+
   return (
-    <Sheet>
+    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger>
         <img
           src={settings}
@@ -77,12 +92,18 @@ const OperationSettings = ({ id }: IOperationSettings) => {
             <>
               <div className="flex flex-col gap-2">
                 <Label>Название</Label>
-                <Input defaultValue={formData.name} />
+                <Input
+                  defaultValue={formData.name}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
+                />
               </div>
 
               <div className="flex flex-col gap-2">
                 <Label>Сумма</Label>
-                <Input defaultValue={formData.amount} />
+                <Input
+                  defaultValue={formData.amount}
+                  onChange={(e) => handleInputChange("amount", e.target.value)}
+                />
               </div>
 
               <div className="flex flex-col gap-2">
@@ -109,6 +130,9 @@ const OperationSettings = ({ id }: IOperationSettings) => {
                   id="description"
                   type="text"
                   defaultValue={formData.description}
+                  onChange={(e) =>
+                    handleInputChange("description", e.target.value)
+                  }
                 />
               </div>
 
@@ -122,8 +146,13 @@ const OperationSettings = ({ id }: IOperationSettings) => {
           )}
         </div>
         <SheetFooter>
-          <Button className="w-full" type="submit">
-            Сохранить изминения
+          <Button
+            className="w-full cursor-pointer"
+            type="submit"
+            onClick={onSubmit}
+            disabled={isPending}
+          >
+            {isPending ? "Сохарнение..." : "Сохранить изминения"}
           </Button>
           <SheetClose className="cursor-pointer">Закрыть</SheetClose>
         </SheetFooter>
