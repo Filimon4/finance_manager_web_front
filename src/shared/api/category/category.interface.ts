@@ -10,6 +10,7 @@ export interface ICategoryResponse {
   deleted: boolean;
   created_at: string;
   account_id: number;
+  totalProfit: number;
 }
 
 export interface ICategoryBalanceResponse {

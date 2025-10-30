@@ -25,6 +25,7 @@ apiAxios.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("accessToken");
+      document.location.href = "auth/signin";
     }
     return Promise.reject(error);
   }

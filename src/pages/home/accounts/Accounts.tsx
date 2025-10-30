@@ -14,7 +14,12 @@ const Accounts = () => {
       <div className="w-full h-full flex flex-col gap-5 overflow-auto">
         {sortedData?.map((account) => (
           // TODO: Можно сделать оптимизацию, не делаю ещё запрос на бэк
-          <AccountItem key={account.id} id={account.id} name={account.name} />
+          <AccountItem
+            key={account.id}
+            totalProfit={account.totalProfit}
+            id={account.id}
+            name={account.name}
+          />
         ))}
         <div className="w-full py-[5px]" />
       </div>

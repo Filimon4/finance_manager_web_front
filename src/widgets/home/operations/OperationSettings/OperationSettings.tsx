@@ -27,7 +27,9 @@ interface IOperationSettings {
 const OperationSettings = ({ id }: IOperationSettings) => {
   const [sheetOpen, setSheetOpen] = useState(false);
 
-  const { data, isLoading, isSuccess } = useOperation(id);
+  const { data, isLoading, isSuccess, refetch } = useOperation(id, {
+    enabled: false,
+  });
 
   const { mutateAsync, isPending } = useUpdateOperation();
 
@@ -70,6 +72,11 @@ const OperationSettings = ({ id }: IOperationSettings) => {
     });
     setSheetOpen(false);
   };
+
+  useEffect(() => {
+    if (!sheetOpen) return;
+    refetch();
+  }, [sheetOpen]);
 
   return (
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>

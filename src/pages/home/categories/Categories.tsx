@@ -12,6 +12,7 @@ const Categories = () => {
         {data?.map((category) => (
           <CategoryItem
             key={category.id}
+            totalProfit={category.totalProfit}
             id={category.id}
             name={category.name}
           />

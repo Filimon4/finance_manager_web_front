@@ -11,6 +11,7 @@ export interface IAccountResponse {
   created_at: string;
   account_id: number;
   currency_id: number;
+  totalProfit: number;
 }
 
 export interface IAccountCreateResponse {

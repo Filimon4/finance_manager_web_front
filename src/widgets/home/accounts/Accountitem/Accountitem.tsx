@@ -1,10 +1,15 @@
 import { InfoCard } from "@/components/ui/card";
-import { useAccountOverview } from "@/shared/api/account";
 import AccountSettings from "@/widgets/home/accounts/AccountSettings/AccountSettings";
 
-const AccountItem = ({ id, name }: { id: number; name: string }) => {
-  const { data } = useAccountOverview(id);
-
+const AccountItem = ({
+  id,
+  name,
+  totalProfit,
+}: {
+  id: number;
+  name: string;
+  totalProfit: number;
+}) => {
   return (
     <div className="flex items-center gap-2">
       <InfoCard
@@ -12,7 +17,7 @@ const AccountItem = ({ id, name }: { id: number; name: string }) => {
         className="w-full flex flex-row justify-between items-center py-4 px-5 shadow-xl/10"
       >
         <span>{name}</span>
-        <span>{data?.overview.totalProfit ?? 0}</span>
+        <span>{totalProfit ?? 0}</span>
       </InfoCard>
       <AccountSettings id={id} />
     </div>
