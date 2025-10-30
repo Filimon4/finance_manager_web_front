@@ -9,6 +9,7 @@ import Categories from "@/pages/home/categories/Categories";
 import Accounts from "@/pages/home/accounts/Accounts";
 import Overview from "@/pages/home/overview/Overview";
 import Operations from "@/pages/home/operations/Operations";
+import Dynamic from "@/pages/home/dynamic/Dynamic";
 
 const router = createBrowserRouter([
   {
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
           },
           {
             path: "/dynamic",
-            element: <Operations />,
+            element: <Dynamic />,
           },
         ],
       },

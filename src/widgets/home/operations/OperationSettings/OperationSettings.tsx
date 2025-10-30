@@ -100,7 +100,7 @@ const OperationSettings = ({ id }: IOperationSettings) => {
               <div className="flex flex-col gap-2">
                 <Label>Название</Label>
                 <Input
-                  defaultValue={formData.name}
+                  value={formData.name}
                   onChange={(e) => handleInputChange("name", e.target.value)}
                 />
               </div>
@@ -108,7 +108,7 @@ const OperationSettings = ({ id }: IOperationSettings) => {
               <div className="flex flex-col gap-2">
                 <Label>Сумма</Label>
                 <Input
-                  defaultValue={formData.amount}
+                  value={formData.amount}
                   onChange={(e) => handleInputChange("amount", e.target.value)}
                 />
               </div>
@@ -136,7 +136,7 @@ const OperationSettings = ({ id }: IOperationSettings) => {
                 <Input
                   id="description"
                   type="text"
-                  defaultValue={formData.description}
+                  value={formData.description}
                   onChange={(e) =>
                     handleInputChange("description", e.target.value)
                   }
