@@ -6,6 +6,8 @@ import {
   SelectItem,
 } from "@/components/ui";
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
+import { useDynamic } from "@/shared/api/dynamic/useDynamic.query";
+import { useState } from "react";
 import {
   Area,
   AreaChart,
@@ -16,15 +18,6 @@ import {
   YAxis,
 } from "recharts";
 
-const data = [
-  { month: "Jan", growth: 120, decline: 80 },
-  { month: "Feb", growth: 150, decline: 70 },
-  { month: "Mar", growth: 180, decline: 90 },
-  { month: "Apr", growth: 220, decline: 60 },
-  { month: "May", growth: 280, decline: 50 },
-  { month: "Jun", growth: 320, decline: 40 },
-];
-
 const chartConfig = {
   desktop: {
     label: "Desktop",
@@ -34,96 +27,139 @@ const chartConfig = {
     label: "Mobile",
     color: "hsl(var(--chart-2))",
   },
+  income: { label: "Доход", color: "hsl(152, 70%, 50%)" },
+  expense: { label: "Расход", color: "hsl(0, 70%, 50%)" },
 };
 
+const monthOptions = [
+  { value: 3, label: "3 месяца" },
+  { value: 6, label: "6 месяцев" },
+  { value: 12, label: "12 месяцев" },
+] as const;
+
 const Dynamic = () => {
+  const [months, setMonths] = useState<number>(3);
+
+  const { data, isLoading, isSuccess } = useDynamic(months);
+
+  const chartData =
+    data?.months.map((m) => ({
+      month: new Intl.DateTimeFormat("ru-RU", { month: "short" }).format(
+        new Date(m.year, m.month - 1)
+      ),
+      income: m.income,
+      expense: m.expense,
+    })) ?? [];
+
   return (
     <>
       <p>Динамика</p>
-      <div className="grid grid-cols-4 gap-2 w-full">
-        <div></div>
-        <div></div>
-        <div></div>
-        <Select value="6">
+      <div className="grid grid-cols-4 gap-2 w-full mb-4">
+        {/* empty cells just to keep the select on the right */}
+        <div />
+        <div />
+        <div />
+        <Select
+          value={months.toString()}
+          onValueChange={(v) => setMonths(Number(v))}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Кол-во месяцев" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="3">3 месяца</SelectItem>
-            <SelectItem value="6">6 месяцев</SelectItem>
-            <SelectItem value="12">12 месяцев</SelectItem>
+            {monthOptions.map(({ value, label }) => (
+              <SelectItem key={value} value={value.toString()}>
+                {label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
       <ChartContainer config={chartConfig} className="w-full h-full">
-        <ResponsiveContainer width="100%" height={300}>
-          <AreaChart
-            data={data}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={10}
-              className="text-xs"
-            />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              tickMargin={10}
-              className="text-xs"
-            />
-            <Tooltip content={<ChartTooltipContent />} />
+        {isLoading ? (
+          <div className="flex items-center justify-center h-72">
+            <span className="text-muted-foreground">Загрузка…</span>
+          </div>
+        ) : !isSuccess || chartData.length === 0 ? (
+          <div className="flex items-center justify-center h-72">
+            <span className="text-muted-foreground">
+              Нет данных за выбранный период
+            </span>
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={300}>
+            <AreaChart
+              data={chartData}
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
 
-            <defs>
-              <linearGradient id="colorGrowth" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="hsl(152, 70%, 50%)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="hsl(152, 70%, 50%)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-              <linearGradient id="colorDecline" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="hsl(0, 70%, 50%)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="hsl(0, 70%, 50%)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-            </defs>
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={10}
+                className="text-xs"
+              />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickMargin={10}
+                className="text-xs"
+              />
 
-            <Area
-              type="linear"
-              dataKey="growth"
-              stackId="1"
-              stroke="hsl(152, 70%, 50%)"
-              strokeWidth={2}
-              fillOpacity={1}
-              fill="url(#colorGrowth)"
-            />
-            <Area
-              type="linear"
-              dataKey="decline"
-              stackId="1"
-              stroke="hsl(0, 70%, 50%)"
-              strokeWidth={2}
-              fillOpacity={1}
-              fill="url(#colorDecline)"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+              <Tooltip content={<ChartTooltipContent />} />
+
+              {/* Gradient definitions */}
+              <defs>
+                <linearGradient id="colorGrowth" x1="0" y1="0" x2="0" y2="1">
+                  <stop
+                    offset="2%"
+                    stopColor="hsl(152, 70%, 50%)"
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset="98%"
+                    stopColor="hsl(152, 70%, 50%)"
+                    stopOpacity={0.1}
+                  />
+                </linearGradient>
+                <linearGradient id="colorDecline" x1="0" y1="0" x2="0" y2="1">
+                  <stop
+                    offset="2%"
+                    stopColor="hsl(0, 70%, 50%)"
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset="98%"
+                    stopColor="hsl(0, 70%, 50%)"
+                    stopOpacity={0.1}
+                  />
+                </linearGradient>
+              </defs>
+
+              <Area
+                type="monotone"
+                dataKey="income"
+                stackId="1"
+                stroke="hsl(152, 70%, 50%)"
+                strokeWidth={2}
+                fillOpacity={1}
+                fill="url(#colorGrowth)"
+              />
+
+              <Area
+                type="monotone"
+                dataKey="expense"
+                stackId="1"
+                stroke="hsl(0, 70%, 50%)"
+                strokeWidth={2}
+                fillOpacity={1}
+                fill="url(#colorDecline)"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        )}
       </ChartContainer>
     </>
   );
