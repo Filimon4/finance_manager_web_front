@@ -13,12 +13,14 @@ import { Button, ComboboxSearch, Input, Label } from "@/components/ui";
 import { useAccount, useUpdateAccount } from "@/shared/api/account";
 import { useEffect, useState } from "react";
 import { useCurrencies } from "@/shared/api/currencies/useCurrencies.query";
+import { useQueryClient } from "@tanstack/react-query";
 
 export interface IAccountSettings {
   id: number;
 }
 
 const AccountSettings = ({ id }: IAccountSettings) => {
+  const queryClient = useQueryClient();
   const [sheetOpen, setSheetOpen] = useState(false);
   const {
     data: accountData,
@@ -98,6 +100,7 @@ const AccountSettings = ({ id }: IAccountSettings) => {
       currency_id: accountData.currency_id,
       main: true,
     });
+    queryClient.invalidateQueries({ queryKey: ["balance"] });
     setSheetOpen(false);
   };
 

@@ -55,7 +55,6 @@ const Dynamic = () => {
     <>
       <p>Динамика</p>
       <div className="grid grid-cols-4 gap-2 w-full mb-4">
-        {/* empty cells just to keep the select on the right */}
         <div />
         <div />
         <div />
@@ -110,7 +109,6 @@ const Dynamic = () => {
 
               <Tooltip content={<ChartTooltipContent />} />
 
-              {/* Gradient definitions */}
               <defs>
                 <linearGradient id="colorGrowth" x1="0" y1="0" x2="0" y2="1">
                   <stop
