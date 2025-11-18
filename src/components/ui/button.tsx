@@ -21,6 +21,8 @@ export const buttonVariants = cva(
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
         borderedCustom1: "rounded-2xl bg-white/10 shadow-xl/20 border-2",
+        borderedCustomRed:
+          "rounded-2xl bg-red-500/10 shadow-xl/20 border-2 border-red-500/20",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

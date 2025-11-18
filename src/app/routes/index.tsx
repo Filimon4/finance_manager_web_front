@@ -10,6 +10,7 @@ import Accounts from "@/pages/home/accounts/Accounts";
 import Overview from "@/pages/home/overview/Overview";
 import Operations from "@/pages/home/operations/Operations";
 import Dynamic from "@/pages/home/dynamic/Dynamic";
+import Me from "@/pages/home/me/Me";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
           {
             path: "/dynamic",
             element: <Dynamic />,
+          },
+          {
+            path: "/me",
+            element: <Me />,
           },
         ],
       },
