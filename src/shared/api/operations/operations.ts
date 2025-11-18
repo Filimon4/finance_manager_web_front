@@ -20,9 +20,13 @@ export const operations = async (
 export const createOperation = async (
   data: ICreateOperationRequest
 ): Promise<{ id: number }> => {
-  const response = await apiAxios.post(`/v1/operations`, data, {
-    withCredentials: true,
-  });
+  const response = await apiAxios.post(
+    `/v1/operations`,
+    { ...data, type: data.type ? data.type : null },
+    {
+      withCredentials: true,
+    }
+  );
 
   return response.data;
 };

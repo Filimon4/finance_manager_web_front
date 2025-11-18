@@ -1,9 +1,11 @@
 import { z } from "zod";
 
 export const createOperationSchema = z.object({
-  type: z.enum(["INCOME", "EXPENSE", "TRANSFER"], {
-    error: "Тип должен относиться к одну из трёз стандартных операций",
-  }),
+  type: z
+    .enum(["INCOME", "EXPENSE", "TRANSFER"])
+    .or(z.null())
+    .or(z.literal(""))
+    .optional(),
   name: z.string().min(1, "Название обязательно"),
   amount: z
     .number({
@@ -11,8 +13,7 @@ export const createOperationSchema = z.object({
     })
     .int("Сумма должна быть целым числом")
     .positive("Сумма должна быть положительной"),
-  bankAccountId: z.number({ error: "Веберите счёт" }),
-  categoryId: z.number({ error: "Выберите категорию" }).or(z.nan()).optional(),
+  categoryId: z.number({ error: "Выберите категорию" }),
   description: z.string(),
 });
 

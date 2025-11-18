@@ -19,11 +19,10 @@ export interface IOperationsResponse {
 }
 
 export interface ICreateOperationRequest {
-  type: "INCOME" | "EXPENSE" | "TRANSFER";
+  type?: "INCOME" | "EXPENSE" | "TRANSFER" | null | "";
   name: string;
   amount: number;
-  bankAccountId: number;
-  categoryId?: number;
+  categoryId: number;
   description?: string;
   toBankAccountId?: number;
 }

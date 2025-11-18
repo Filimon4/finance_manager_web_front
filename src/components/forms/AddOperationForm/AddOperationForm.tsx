@@ -1,4 +1,3 @@
-import { useAccounts } from "@/shared/api/account";
 import { useCategories } from "@/shared/api/category";
 import { useCreateOperation } from "@/shared/api/operations/useCreateOperations.mutation";
 import {
@@ -19,6 +18,7 @@ import {
 import upBordered from "/icons/up_bordered.svg";
 import downBordered from "/icons/down_bordered.svg";
 import { useForm } from "@tanstack/react-form";
+import { useAccounts } from "@/shared/api/account";
 
 export function AddOperationForm({ onSuccess }: { onSuccess: () => void }) {
   const { data: categories } = useCategories({
@@ -47,14 +47,13 @@ export function AddOperationForm({ onSuccess }: { onSuccess: () => void }) {
           {} as Record<string, unknown>
         );
 
-        getSchemaByType(data.value.type).parse(filteredData);
+        getSchemaByType(data.value.type || "INCOME").parse(filteredData);
       },
     },
     defaultValues: {
       type: "",
       name: "",
       amount: NaN,
-      bankAccountId: NaN,
       categoryId: NaN,
       description: "",
       toBankAccountId: NaN,
@@ -77,7 +76,19 @@ export function AddOperationForm({ onSuccess }: { onSuccess: () => void }) {
       >
         <form.Field
           name="type"
-          validators={{ onChange: createOperationSchema.shape.type }}
+          validators={{
+            onChange: (data) => {
+              if (!data) return undefined;
+
+              const result = createOperationSchema.shape.type.safeParse(
+                data.value
+              );
+              if (!result.success) {
+                return JSON.parse(result.error.message)[0]?.message;
+              }
+              return undefined;
+            },
+          }}
         >
           {(field) => (
             <EmptyCard className="flex flex-col gap-1">
@@ -189,34 +200,6 @@ export function AddOperationForm({ onSuccess }: { onSuccess: () => void }) {
           )}
         </form.Field>
 
-        {!isAccountLoading && isAccountSuccess && (
-          <form.Field
-            name="bankAccountId"
-            validators={{ onChange: createOperationSchema.shape.bankAccountId }}
-          >
-            {(field) => (
-              <div className="space-y-2">
-                <ComboboxSearch
-                  searchPlaceholder="Счёт"
-                  onClick={(i: number) => field.handleChange(accounts[i].id)}
-                  data={accounts.map((account) => ({
-                    label: account.name,
-                    value: account.name,
-                    active: field.state.value === account.id,
-                  }))}
-                  buttonClassName="w-full"
-                />
-                {field.state.meta.errors?.[0] && (
-                  <p className="text-sm text-red-500">
-                    {field.state.meta.errors?.[0]?.message ??
-                      String(field.state.meta.errors?.[0])}
-                  </p>
-                )}
-              </div>
-            )}
-          </form.Field>
-        )}
-
         <form.Field
           name="categoryId"
           validators={{
@@ -270,7 +253,7 @@ export function AddOperationForm({ onSuccess }: { onSuccess: () => void }) {
                     validators={{
                       onChange: (
                         getSchemaByType(
-                          form.state.values.type
+                          "TRANSFER"
                         ) as typeof createTransferOperationSchema
                       ).shape.toBankAccountId,
                     }}
