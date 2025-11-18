@@ -1,9 +1,35 @@
 import upBorderd from "/icons/up_bordered.svg";
 import downBorderd from "/icons/down_bordered.svg";
 import { useBalance } from "@/shared/api/balance";
+import { useAccountMain } from "@/shared/api/account";
+import {
+  currencyById,
+  type ICurrenciesResponse,
+} from "@/shared/api/currencies";
+import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Profile = () => {
-  const { data } = useBalance();
+  const queryClient = useQueryClient();
+  const { data: data } = useBalance();
+  const {
+    data: mainData,
+    isSuccess: isSuccessAccountMain,
+    isFetching: isFetchingAccountMain,
+  } = useAccountMain();
+
+  const [currencyData, setCurrencyData] = useState<ICurrenciesResponse>();
+
+  useEffect(() => {
+    if (mainData?.currency_id) {
+      queryClient
+        .fetchQuery({
+          queryKey: ["currency", mainData.currency_id],
+          queryFn: () => currencyById(mainData.currency_id),
+        })
+        .then((data) => setCurrencyData(data));
+    }
+  }, [isSuccessAccountMain, queryClient, isFetchingAccountMain]);
 
   const { totalIncome, totalExpense, totalProfit } = data?.overview ?? {
     totalIncome: 0,
@@ -17,7 +43,8 @@ const Profile = () => {
         <div className="flex justify-center items-center gap-2 flex-col">
           <p className="text-xl">Баланс</p>
           <p className="flex gap-2 text-2xl">
-            <span>{totalProfit.toLocaleString()}</span>₽
+            <span>{totalProfit.toLocaleString()}</span>
+            {currencyData?.symbol_native}
           </p>
         </div>
       </div>

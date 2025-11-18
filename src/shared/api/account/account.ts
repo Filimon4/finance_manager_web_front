@@ -37,6 +37,14 @@ export const account = async (id: number): Promise<IAccountResponse> => {
   return response.data;
 };
 
+export const accountMain = async (): Promise<IAccountResponse> => {
+  const response = await apiAxios.get(`/v1/bankAccount/main`, {
+    withCredentials: true,
+  });
+
+  return response.data;
+};
+
 export const createAccount = async (
   data: IAccountCreateRequest
 ): Promise<IAccountCreateResponse> => {

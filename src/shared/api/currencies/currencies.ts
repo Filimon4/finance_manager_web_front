@@ -8,3 +8,13 @@ export const currencies = async (): Promise<ICurrenciesResponse[]> => {
 
   return response.data;
 };
+
+export const currencyById = async (
+  id: number
+): Promise<ICurrenciesResponse> => {
+  const response = await apiAxios.get(`/v1/currencies/${id}`, {
+    withCredentials: true,
+  });
+
+  return response.data;
+};

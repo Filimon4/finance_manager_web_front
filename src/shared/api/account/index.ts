@@ -7,3 +7,4 @@ export * from "./useCreateAccount.mutation";
 export * from "./useDeleteAccount.mutation";
 export * from "./useRestoreAccount.mutation";
 export * from "./useUpdateAccount.mutation";
+export * from "./useAccountMain.query";

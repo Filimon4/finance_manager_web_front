@@ -9,8 +9,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import settings from "/icons/settings.svg";
-import { Button, ComboboxSearch, Input, Label } from "@/components/ui";
-import { useAccount, useUpdateAccount } from "@/shared/api/account";
+import { Button, Input, Label } from "@/components/ui";
+import {
+  useAccount,
+  useDeleteAccount,
+  useRestoreAccount,
+  useUpdateAccount,
+} from "@/shared/api/account";
 import { useEffect, useState } from "react";
 import { useCurrencies } from "@/shared/api/currencies/useCurrencies.query";
 import { useQueryClient } from "@tanstack/react-query";
@@ -35,6 +40,13 @@ const AccountSettings = ({ id }: IAccountSettings) => {
   } = useCurrencies();
 
   const { mutateAsync, isPending } = useUpdateAccount();
+  const { mutateAsync: mutateAsyncDeleteAccount, isPending: isDeletePending } =
+    useDeleteAccount();
+
+  const {
+    mutateAsync: mutateAsyncRestoreAccount,
+    isPending: isRestorePending,
+  } = useRestoreAccount();
 
   const [currCurrency, setCurrCurrency] = useState<number>(NaN);
 
@@ -75,13 +87,6 @@ const AccountSettings = ({ id }: IAccountSettings) => {
     }));
   };
 
-  const handleSelectChange = (value: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      currency_id: value,
-    }));
-  };
-
   const handleSubmit = async () => {
     await mutateAsync({
       id: id,
@@ -100,6 +105,23 @@ const AccountSettings = ({ id }: IAccountSettings) => {
       currency_id: accountData.currency_id,
       main: true,
     });
+    queryClient.invalidateQueries({ queryKey: ["balance"] });
+    queryClient.invalidateQueries({ queryKey: ["bankAccountMain"] });
+    setSheetOpen(false);
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!accountLoadedSuccess) return;
+
+    await mutateAsyncDeleteAccount(id);
+    queryClient.invalidateQueries({ queryKey: ["balance"] });
+    setSheetOpen(false);
+  };
+
+  const handleRestoreAccount = async () => {
+    if (!accountLoadedSuccess) return;
+
+    await mutateAsyncRestoreAccount(id);
     queryClient.invalidateQueries({ queryKey: ["balance"] });
     setSheetOpen(false);
   };
@@ -141,18 +163,11 @@ const AccountSettings = ({ id }: IAccountSettings) => {
               <Label htmlFor="currency_id">Валюта</Label>
               {currencies && (
                 <>
-                  <ComboboxSearch
-                    searchPlaceholder="Валюта"
-                    onClick={(i) => {
-                      setCurrCurrency(currencies[i].id);
-                      handleSelectChange(i);
-                    }}
-                    data={currencies.map((curr) => ({
-                      label: curr.name,
-                      value: curr.symbol,
-                      active: currCurrency == curr.id,
-                    }))}
-                    buttonClassName="w-full"
+                  <Input
+                    value={
+                      currencies.find((curr) => currCurrency == curr.id)?.name
+                    }
+                    disabled
                   />
                 </>
               )}
@@ -185,6 +200,29 @@ const AccountSettings = ({ id }: IAccountSettings) => {
           >
             {isPending ? "Установка..." : "Поставить гланым счётом"}
           </Button>
+
+          {accountData?.deleted && (
+            <>
+              <Button
+                className="w-full bg-red-500/80"
+                onClick={handleRestoreAccount}
+                disabled={isRestorePending}
+              >
+                {isPending ? "Востановление..." : "Востановить"}
+              </Button>
+            </>
+          )}
+          {!accountData?.deleted && (
+            <>
+              <Button
+                className="w-full bg-red-500/80"
+                onClick={handleDeleteAccount}
+                disabled={isDeletePending}
+              >
+                {isPending ? "Удаление..." : "Удалить"}
+              </Button>
+            </>
+          )}
           <SheetClose className="cursor-pointer">Закрыть</SheetClose>
         </SheetFooter>
       </SheetContent>
