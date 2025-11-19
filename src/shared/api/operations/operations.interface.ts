@@ -22,7 +22,7 @@ export interface ICreateOperationRequest {
   type?: "INCOME" | "EXPENSE" | "TRANSFER" | null | "";
   name: string;
   amount: number;
-  categoryId: number;
+  categoryId?: number;
   description?: string;
   toBankAccountId?: number;
 }

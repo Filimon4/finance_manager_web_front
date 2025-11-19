@@ -200,48 +200,51 @@ export function AddOperationForm({ onSuccess }: { onSuccess: () => void }) {
           )}
         </form.Field>
 
-        <form.Field
-          name="categoryId"
-          validators={{
-            onChange: (data) => {
-              if (!data) return undefined;
-
-              const result = createOperationSchema.shape.categoryId.safeParse(
-                data.value
-              );
-              if (!result.success) {
-                return JSON.parse(result.error.message)[0]?.message;
-              }
-              return undefined;
-            },
-          }}
-        >
-          {(field) => (
-            <div className="space-y-2">
-              <ComboboxSearch
-                searchPlaceholder="Категория"
-                onClick={(i: number) =>
-                  categories && field.handleChange(categories[i].id)
-                }
-                data={
-                  categories
-                    ? categories.map((category) => ({
-                        label: category.name,
-                        value: category.name,
-                        active: field.state.value === category.id,
-                      }))
-                    : []
-                }
-                buttonClassName="w-full"
-              />
-              {field.state.meta.errors?.[0] && (
-                <p className="text-sm text-red-500">
-                  {field.state.meta.errors ?? String(field.state.meta.errors)}
-                </p>
+        <form.Subscribe selector={(state) => state.values.type}>
+          {(type) => (
+            <>
+              {type !== "TRANSFER" && (
+                <>
+                  <form.Field
+                    name="categoryId"
+                    validators={{
+                      onChange: (
+                        getSchemaByType(type) as typeof createOperationSchema
+                      ).shape.categoryId,
+                    }}
+                  >
+                    {(field) => (
+                      <div className="space-y-2">
+                        <ComboboxSearch
+                          searchPlaceholder="Категория"
+                          onClick={(i: number) =>
+                            categories && field.handleChange(categories[i].id)
+                          }
+                          data={
+                            categories
+                              ? categories.map((category) => ({
+                                  label: category.name,
+                                  value: category.name,
+                                  active: field.state.value === category.id,
+                                }))
+                              : []
+                          }
+                          buttonClassName="w-full"
+                        />
+                        {field.state.meta.errors?.[0] && (
+                          <p className="text-sm text-red-500">
+                            {field.state.meta.errors?.[0]?.message ??
+                              String(field.state.meta.errors?.[0])}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </form.Field>
+                </>
               )}
-            </div>
+            </>
           )}
-        </form.Field>
+        </form.Subscribe>
 
         <form.Subscribe selector={(state) => state.values.type}>
           {(type) => (
@@ -253,7 +256,7 @@ export function AddOperationForm({ onSuccess }: { onSuccess: () => void }) {
                     validators={{
                       onChange: (
                         getSchemaByType(
-                          "TRANSFER"
+                          type
                         ) as typeof createTransferOperationSchema
                       ).shape.toBankAccountId,
                     }}

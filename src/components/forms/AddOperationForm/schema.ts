@@ -17,12 +17,14 @@ export const createOperationSchema = z.object({
   description: z.string(),
 });
 
-export const createTransferOperationSchema = createOperationSchema.extend({
-  toBankAccountId: z
-    .number()
-    .int("ID счёта для перевода должен быть целым числом")
-    .positive("ID счёта для перевода должен быть положительным"),
-});
+export const createTransferOperationSchema = createOperationSchema
+  .omit({ categoryId: true })
+  .extend({
+    toBankAccountId: z
+      .number()
+      .int("ID счёта для перевода должен быть целым числом")
+      .positive("ID счёта для перевода должен быть положительным"),
+  });
 
 export type CreateOperationFormData = z.infer<typeof createOperationSchema>;
 export type CreateTransferOperationFormData = z.infer<
